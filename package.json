@@ -1,0 +1,16 @@
+{
+  "name": "the-opinion-network",
+  "version": "1.0.0",
+  "description": "Give your opinions on things. Simple as that.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Zaheen Ahmed",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^2.5.5",
+    "express": "^4.14.0",
+    "pg": "^6.1.2"
+  }
+}

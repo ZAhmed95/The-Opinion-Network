@@ -5,15 +5,17 @@ var bodyParser = require('body-parser');
 var passport = require('passport');
 var Auth0Strategy = require('passport-auth0');
 
+var routes = require('./routes/index');
+var user = require('./routes/user');
+
 var app = express();
 app.set('port', (process.env.PORT || 5000));
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser());
-
-var routes = require('./routes/index');
-var user = require('./routes/user');
+app.use('/', routes);
+app.use('/user', user);
 
 //set up auth0 strategy for passport
 var strategy = new Auth0Strategy({
@@ -43,6 +45,10 @@ var connectionString = process.env.DATABASE_URL;
 
 app.listen(app.get('port'), function(){
   console.log('Node app is running on port', app.get('port'));
+});
+
+app.get('/', function(req,res){
+  res.render('login')
 });
 
 app.get('*', function(req,res){

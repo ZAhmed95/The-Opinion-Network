@@ -40,11 +40,13 @@ passport.use(new LocalStrategy(
     //connect to database
     pg.connect(connectionString, function(err,client,pgdone){
       if(err){
+        console.log("error connecting to database");
         return done(err);
       }
       //find matching user and password
       client.query("select * from users where username = " + username + " and password = " + password + ";", function(err,result){
         if(err){
+          console.log("error querying database");
           return done(err);
         }
         if (result.rows){ //user found
@@ -71,19 +73,6 @@ app.listen(app.get('port'), function(){
 });
 
 app.get('/', function(req,res){
-  pg.connect(connectionString, function(err,client,done){
-    if (err){
-      return console.log(err);
-    }
-    client.query("select * from users;", function(err,result){
-      if(err){
-        return console.log(err);
-      }
-      console.log(result);
-      done();
-      pg.end();
-    })
-  });
   if(req.user){
     res.render('user', {user: req.user});
   }

@@ -29,24 +29,32 @@ var connectionString = process.env.DATABASE_URL;
 //authentication strategy
 passport.use(new LocalStrategy(
   function(username, password, done) {
-    if (username === "zaheen" && password === "1234"){
-      return done(null, user = {
-        username: "zaheen",
-        fname: "Zaheen",
-        lname: "Ahmed"
-      });
-    }
-    return done(null, false);
-    // //connect to database
-    // pg.connect(connectionString, function(err,client,pgdone){
-    //   if(err){
-    //     return done(err);
-    //   }
-    //   //find matching user and password
-    //   client.query("select * from users where username = " + username + " and password = " + password + ";", function(err,result){
-    //     console.log(result);
-    //   }); //end client.query
-    // }); //end pg.connect
+    // if (username === "zaheen" && password === "1234"){
+    //   return done(null, user = {
+    //     username: "zaheen",
+    //     fname: "Zaheen",
+    //     lname: "Ahmed"
+    //   });
+    // }
+    // return done(null, false);
+    //connect to database
+    pg.connect(connectionString, function(err,client,pgdone){
+      if(err){
+        return done(err);
+      }
+      //find matching user and password
+      client.query("select * from users where username = " + username + " and password = " + password + ";", function(err,result){
+        if(err){
+          return done(err);
+        }
+        if (result.rows){ //user found
+          return done(null, result.rows[0]);
+        }
+        return done(null, false); //user not found
+      }); //end client.query
+      pgdone();
+      pg.end();
+    }); //end pg.connect
   } //end strategy function
 )); //end passport.use(new LocalStrategy())
 

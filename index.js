@@ -71,7 +71,6 @@ app.get('/', function(req,res){
       if (err){
         return console.log("error querying database");
       }
-      console.log(result);
     });
   });
   if(req.user){
@@ -98,6 +97,31 @@ app.get('/logout', function(req,res){
   req.logout();
   res.redirect('/');
 });
+
+app.get('/signup', function(req,res){
+  res.render('signup');
+});
+
+app.post('signup', function(req,res){
+  pg.connect(connectionString, function(err,client,done){
+    if(err){
+      return console.log("error connecting to database");
+    }
+    var fname = req.body.fname;
+    var lname = req.body.lname;
+    var email = req.body.email;
+    var username = req.body.username;
+    var password = req.body.password;
+    client.query(`insert into users (fname,lname,email,username,password) values ('${fname}','${lname}','${email}','${username}','${password}');`, function(err,result){
+      if(err){
+        return console.log("error inserting into database");
+      }
+      res.redirect('/');
+    }); //end client.query
+    done();
+    pg.end();
+  }); //end pg.connect
+}); //end app.post
 
 app.get('*', function(req,res){
   res.render('page404', {req});

@@ -39,6 +39,7 @@ passport.use(new LocalStrategy(
       client.query("select * from users;", function(err,result){
         if(err){
           console.log("error querying database");
+          console.log(err);
           return done(err);
         }
         if (result.rows){ //user found

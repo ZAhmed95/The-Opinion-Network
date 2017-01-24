@@ -102,7 +102,7 @@ app.get('/signup', function(req,res){
   res.render('signup');
 });
 
-app.post('signup', function(req,res){
+app.post('/signup', function(req,res){
   pg.connect(connectionString, function(err,client,done){
     if(err){
       return console.log("error connecting to database");

@@ -40,9 +40,9 @@ passport.use(new LocalStrategy(
       var encrypted;
       bcrypt.hash(password, saltRounds, function(err,hash){
         encrypted = hash;
-        console.log("HASH: " + hash);
+        console.log("HASH1: " + hash);
       });
-      console.log("HASH: " + encrypted);
+      console.log("HASH2: " + encrypted);
       //find matching user and password
       client.query("select * from users where username = '" + username + "' and password = '" + encrypted + "';", function(err,result){
         if(err){

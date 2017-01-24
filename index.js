@@ -29,14 +29,6 @@ var connectionString = process.env.DATABASE_URL;
 //authentication strategy
 passport.use(new LocalStrategy(
   function(username, password, done) {
-    // if (username === "zaheen" && password === "1234"){
-    //   return done(null, user = {
-    //     username: "zaheen",
-    //     fname: "Zaheen",
-    //     lname: "Ahmed"
-    //   });
-    // }
-    // return done(null, false);
     //connect to database
     pg.connect(connectionString, function(err,client,pgdone){
       if(err){
@@ -46,7 +38,7 @@ passport.use(new LocalStrategy(
       //find matching user and password
       client.query("select * from users;", function(err,result){
         if(err){
-          //console.log("error querying database");
+          console.log("error querying database");
           return done(err);
         }
         if (result.rows){ //user found

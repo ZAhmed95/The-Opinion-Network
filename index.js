@@ -66,14 +66,14 @@ app.listen(app.get('port'), function(){
 });
 
 app.get('/', function(req,res){
-  // pg.connect(connectionString, function(err,client,done){
-  //   client.query("select * from users;", function(err,result){
-  //     if (err){
-  //       return console.log("error querying database");
-  //     }
-  //     console.log(result);
-  //   })
-  // });
+  pg.connect(connectionString, function(err,client,done){
+    client.query("select * from users;", function(err,result){
+      if (err){
+        return console.log("error querying database");
+      }
+      console.log(result);
+    });
+  });
   if(req.user){
     res.render('user', {user: req.user});
   }

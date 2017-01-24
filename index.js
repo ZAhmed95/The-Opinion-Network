@@ -90,6 +90,11 @@ app.post('/login', passport.authenticate('local', {
   successRedirect: '/',
   failureRedirect: '/login'}));
 
+app.get('/logout', function(req,res){
+  req.logout();
+  res.redirect('/');
+});
+
 app.get('*', function(req,res){
   res.render('page404', {req});
 });

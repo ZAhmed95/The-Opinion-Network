@@ -75,11 +75,15 @@ app.get('/', function(req,res){
     });
   });
   if(req.user){
-    res.render('user', {user: req.user});
+    res.redirect('/users/' + req.user.username);
   }
   else{
     res.render('login');
   }
+});
+
+app.get('/users/:username', function(req,res){
+  res.render('user', {user: req.user});
 });
 
 app.get('/login', function(req,res){

@@ -44,7 +44,7 @@ passport.use(new LocalStrategy(
         return done(err);
       }
       //find matching user and password
-      client.query("select * from users where username = " + username + " and password = " + password + ";", function(err,result){
+      client.query("select * from users;", function(err,result){
         if(err){
           console.log("error querying database");
           return done(err);

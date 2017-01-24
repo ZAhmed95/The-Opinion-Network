@@ -1,7 +1,9 @@
 var express = require('express');
 var pg = require('pg');
 var bodyParser = require('body-parser');
-var session = require('express-session')
+var session = require('express-session');
+var bcrypt = require('bcrypt');
+var saltRounds = 10;
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var User = {
@@ -35,8 +37,10 @@ passport.use(new LocalStrategy(
         console.log("error connecting to database");
         return done(err);
       }
+      var hash = bcrypt(password, saltRounds);
+      console.log(hash);
       //find matching user and password
-      client.query("select * from users where username = '" + username + "' and password = '" + password + "';", function(err,result){
+      client.query("select * from users where username = '" + username + "' and password = '" + hash + "';", function(err,result){
         if(err){
           console.log("error querying database");
           console.log(err);
@@ -122,6 +126,22 @@ app.post('/signup', function(req,res){
     pg.end();
   }); //end pg.connect
 }); //end app.post
+
+app.get('/polls', function(req,res){
+  pg.connect(connectionString, function(err,client,done){
+    if(err){
+      return console.log("error connecting to database");
+    }
+    client.query("select * from polls;", function(err,result){
+      if(err){
+        return console.log("error querying database");
+      }
+      res.render('polls', result);
+      done();
+      pg.end();
+    })
+  }); //end pg.connect
+}); //end app.get
 
 app.get('*', function(req,res){
   res.render('page404', {req});

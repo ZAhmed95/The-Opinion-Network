@@ -37,10 +37,13 @@ passport.use(new LocalStrategy(
         console.log("error connecting to database");
         return done(err);
       }
-      var hash = bcrypt(password, saltRounds);
-      console.log(hash);
+      var encrypted;
+      bcrypt.hash(password, saltRounds, function(err,hash){
+        encrypted = hash;
+      });
+
       //find matching user and password
-      client.query("select * from users where username = '" + username + "' and password = '" + hash + "';", function(err,result){
+      client.query("select * from users where username = '" + username + "' and password = '" + encrypted + "';", function(err,result){
         if(err){
           console.log("error querying database");
           console.log(err);

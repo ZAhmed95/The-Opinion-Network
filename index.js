@@ -188,7 +188,24 @@ app.post('/polls/:id', function(req,res){
       }
       client.query(`select * from polls where id = ${req.params.id}`, function(err,result){
         if(result.rows.length){
-
+          var post = result.rows[0];
+          var avg_opinion = post.avg_opinion;
+          var votes = post.votes;
+          //get posted opinion
+          var opinion = req.body.opinion;
+          //clamp opinion to be between 0 and 10
+          if (opinion < 0) opinion = 0;
+          else if (opinion > 10) opinion = 10;
+          //update avg_opinion with new opinion (and increment votes by 1)
+          avg_opinion = (avg_opinion * votes + opinion) / (++votes);
+          //update database
+          client.query(`update polls set avg_opinion = ${avg_opinion}, votes = ${votes} where id = ${post.id};` function(){
+            //end database connection
+            done();
+            pg.end();
+          });
+          //refresh page
+          res.redirect('/polls/' + post.id);
         }
         else{
           res.render('page404',{req});

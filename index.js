@@ -165,7 +165,7 @@ app.get('/polls/:id', function(req,res){
       if(err){
         return console.log("error querying database");
       }
-      if(result.rows > 0){
+      if(result.rows.length){
         var post = result.rows[0];
         client.query(`select * from users where id = ${post.fk_user_id};`, function(err,resultUser){
           res.render('post', {post: post, user: resultUser.rows[0]});
@@ -187,7 +187,7 @@ app.post('/polls/:id', function(req,res){
         return console.log("error connecting to database");
       }
       client.query(`select * from polls where id = ${req.params.id}`, function(err,result){
-        if(result.rows > 0){
+        if(result.rows.length){
 
         }
         else{

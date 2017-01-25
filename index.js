@@ -126,7 +126,12 @@ app.post('/signup', function(req,res){
 
 //go to page for creating new poll
 app.get('/polls/create', function(req,res){
-  res.render('createPoll');
+  if(req.user){ //if a user is signed in, take them to the poll creation page
+    res.render('createPoll', {user: req.user});
+  }
+  else{ //otherwise, tell them to sign in
+    res.redirect('/login');
+  }
 }); //end app.get
 
 //create new poll

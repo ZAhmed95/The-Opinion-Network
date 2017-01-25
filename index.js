@@ -144,6 +144,7 @@ app.post('/polls/create', function(req,res){
     var title = req.body.title;
     var description = req.body.description;
     var fk_user_id = req.user.id;
+    console.log("TITLE: " + title + " DESCRIPTION: " + description + " USER_ID: " + fk_user_id);
     //insert new poll into database
     client.query(`insert into polls (title,description,avg_opinion,votes,fk_user_id) values ('${title}','${description}', 0, 0, ${fk_user_id});`, function(err,result){
       if(err){

@@ -9,7 +9,13 @@
     <h2>Created by: <%= user.username %></h2>
     <h3>Description:</h3>
     <p><%= post.description %></p>
-    <h2>Public opinion: <%= post.avg_opinion %></h2>
-    <h2>Number of votes: <%= post.votes %></h2>
+    <h4>Public opinion: <%= post.avg_opinion %></h4>
+    <h4>Number of votes: <%= post.votes %></h4>
+    <form class="vote" action= <%= "/polls/" + post.id %> method="post">
+      <h4>What's your opinion?</h4>
+      <input type="number" name="opinion"> (On a scale of 0 to 10, 0 = completely disagree, 10 = completely agree)
+      <br>
+      <input type="submit" name="submit" value="Submit">
+    </form>
   </body>
 </html>

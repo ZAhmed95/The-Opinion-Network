@@ -124,6 +124,34 @@ app.post('/signup', function(req,res){
   }); //end pg.connect
 }); //end app.post
 
+//go to page for creating new poll
+app.get('/polls/create', function(req,res){
+  res.render('createPoll');
+}); //end app.get
+
+//create new poll
+app.post('/polls/create', function(req,res){
+  pg.connect(connectionString, function(err,client,done){
+    if(err){
+      return console.log("error connecting to database");
+    }
+    //get new poll's variables
+    var title = req.body.title;
+    var description = req.body.description;
+    var fk_user_id = req.user.id;
+    //insert new poll into database
+    client.query(`insert into polls (title,description,avg_opinion,votes,fk_user_id) values ('${title}','${description}', 0, 0, ${fk_user_id})`, function(err,result){
+      if(err){
+        return console.log("error querying databse");
+      }
+    }); //end client.query
+    done();
+    pg.end();
+  }); //end pg.connect
+  res.redirect('/polls');
+}); //end app.post
+
+//go to page listing all polls
 app.get('/polls', function(req,res){
   pg.connect(connectionString, function(err,client,done){
     if(err){

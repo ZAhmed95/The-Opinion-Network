@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Create Poll</title>
+  </head>
+  <body>
+    <!-- create poll instructions -->
+    <h2>Instructions for creating a new poll</h2>
+    <p>
+      The title must be a statement or proposition that can be agreed or disagreed with. For example: "Cats are better than dogs." is an acceptable title, but "What do you think about cats?" is not.
+    </p>
+    <p>
+      The description should clarify the title's statement if necessary. The description should not introduce new poll questions, or make statements that contradict the title statement.
+    </p>
+
+    <!-- create poll form -->
+    <form class="createPoll" action="/polls/create" method="post">
+      <label for="title">Title:</label>
+      <input type="text" name="title">
+      <br>
+      <label for="description">Description:</label>
+      <textarea name="description" rows="8" cols="80"></textarea>
+      <br>
+      <input type="submit" name="submit" value="Submit">
+    </form>
+  </body>
+</html>

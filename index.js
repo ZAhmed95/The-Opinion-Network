@@ -194,11 +194,11 @@ app.post('/polls/:id', function(req,res){
           res.render('page404',{req});
         }
       }); //end client.query
+    }); //end pg.connect
   }
   else{
     res.redirect('/');
   }
-  }); //end pg.connect
 }); //end app.post
 
 //go to page listing all polls

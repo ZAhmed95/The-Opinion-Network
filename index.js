@@ -151,9 +151,9 @@ app.post('/polls/create', function(req,res){
       }
       done();
       pg.end();
-      res.redirect('/polls/' + result.rows[0]);
     }); //end client.query
   }); //end pg.connect
+  res.redirect('/polls/');
 }); //end app.post
 
 app.get('/polls/:id', function(req,res){

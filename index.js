@@ -6,11 +6,6 @@ var bcrypt = require('bcrypt');
 var saltRounds = 10;
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var User = {
-  findOne: function(user, verify){
-
-  }
-};
 
 var app = express();
 app.set('port', (process.env.PORT || 5000));
@@ -43,7 +38,7 @@ passport.use(new LocalStrategy(
           console.log("error querying database");
           return done(err);
         }
-        if (result.rows){ //user found
+        if (result.rows.length){ //user found
           return done(null, result.rows[0]);
         }
         return done(null, false); //user not found

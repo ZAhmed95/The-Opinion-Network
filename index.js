@@ -37,24 +37,17 @@ passport.use(new LocalStrategy(
         console.log("error connecting to database");
         return done(err);
       }
-
-      bcrypt.hash(password, saltRounds, function(err,hash){
+      //find matching user and password
+      client.query("select * from users where username = '" + username + "' and password = '" + hash + "';", function(err,result){
         if(err){
+          console.log("error querying database");
           return done(err);
         }
-        console.log("HASH: " + hash);
-        //find matching user and password
-        client.query("select * from users where username = '" + username + "' and password = '" + hash + "';", function(err,result){
-          if(err){
-            console.log("error querying database");
-            return done(err);
-          }
-          if (result.rows){ //user found
-            return done(null, result.rows[0]);
-          }
-          return done(null, false); //user not found
-        }); //end client.query
-      }); //end bcrypt.hash
+        if (result.rows){ //user found
+          return done(null, result.rows[0]);
+        }
+        return done(null, false); //user not found
+      }); //end client.query
       pgdone();
       pg.end();
     }); //end pg.connect

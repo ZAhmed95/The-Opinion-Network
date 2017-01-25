@@ -192,7 +192,7 @@ app.post('/polls/:id', function(req,res){
           var avg_opinion = post.avg_opinion;
           var votes = post.votes;
           //get posted opinion
-          var opinion = req.body.opinion;
+          var opinion = parseFloat(req.body.opinion);
           //clamp opinion to be between 0 and 10
           if (opinion < 0) opinion = 0;
           else if (opinion > 10) opinion = 10;

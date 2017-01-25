@@ -148,7 +148,7 @@ app.post('/polls/create', function(req,res){
     //insert new poll into database
     client.query(`insert into polls (title,description,avg_opinion,votes,fk_user_id) values ('${title}','${description}', 0, 0, ${fk_user_id});`, function(err,result){
       if(err){
-        console.log(err);
+        res.send(err);
         return console.log("error querying databse");
       }
     }); //end client.query

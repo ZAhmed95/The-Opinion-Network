@@ -10,7 +10,7 @@
     <h2>Created by: <%= user.username %></h2>
     <h3>Description:</h3>
     <p><%= post.description %></p>
-    <h4>Public opinion: <%= Math.round(rows[i].avg_opinion * 100) / 100 %></h4>
+    <h4>Public opinion: <%= Math.round(post.avg_opinion * 100) / 100 %></h4>
     <h4>Number of votes: <%= post.votes %></h4>
     <form class="vote" action= <%= "/polls/" + post.id %> method="post">
       <h4>What's your opinion?</h4>

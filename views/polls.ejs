@@ -6,13 +6,15 @@
   </head>
   <body>
     <a href="/polls/create"><button type="button" name="createPoll">Create New Poll</button></a>
-    
+
     <!-- show all polls -->
     <% for (var i = 0; i < rows.length; i++){ %>
-      <div class="pollItem">
-        <h2><%= rows[i].title %></h2>
-        <h3>Public opinion: <%= rows[i].avg_opinion %></h3>
-      </div>
+      <a href=<%= "/polls/" + rows[i].id %>>
+        <div class="pollItem">
+          <h2><%= rows[i].title %></h2>
+          <h3>Public opinion: <%= rows[i].avg_opinion %></h3>
+        </div>
+      </a>
     <% } %>
   </body>
 </html>

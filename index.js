@@ -144,7 +144,6 @@ app.post('/polls/create', function(req,res){
     var title = req.body.title;
     var description = req.body.description;
     var fk_user_id = req.user.id;
-    console.log("TITLE: " + title + " DESCRIPTION: " + description + " USER_ID: " + fk_user_id);
     //insert new poll into database
     client.query(`insert into polls (title,description,avg_opinion,votes,fk_user_id) values ('${title}','${description}', 0, 0, ${fk_user_id});`, function(err,result){
       if(err){
@@ -156,6 +155,30 @@ app.post('/polls/create', function(req,res){
   }); //end pg.connect
   res.redirect('/polls');
 }); //end app.post
+
+app.get('/polls/:id', function(req,res){
+  pg.connect(connectionString, function(err,client,done){
+    if(err){
+      return console.log("error connecting to database");
+    }
+    client.query(`select * from polls where id = ${req.params.id};`, function(err,result){
+      if(err){
+        return console.log("error querying database");
+      }
+      if(result.rows){
+        var post = result.rows[0];
+        client.query(`select * from users where id = ${post.fk_user_id};`, function(err,resultUser){
+          res.render('post', {post: post, user: resultUser.rows[0]});
+        }); //end client.query users
+      }
+      else{
+        res.render('page404', {req});
+      }
+      done();
+      pg.end();
+    }); //end client.query polls
+  }); //end pg.connect
+}); //end app.get
 
 //go to page listing all polls
 app.get('/polls', function(req,res){

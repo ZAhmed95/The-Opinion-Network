@@ -224,7 +224,7 @@ app.get('/polls', function(req,res){
     if(err){
       return console.log("error connecting to database");
     }
-    client.query("select * from polls;", function(err,result){
+    client.query("select * from polls order by id desc;", function(err,result){
       if(err){
         return console.log("error querying database");
       }

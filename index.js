@@ -199,7 +199,7 @@ app.post('/polls/:id', function(req,res){
           //update avg_opinion with new opinion (and increment votes by 1)
           avg_opinion = (avg_opinion * votes + opinion) / (++votes);
           //update database
-          client.query(`update polls set avg_opinion = ${avg_opinion}, votes = ${votes} where id = ${post.id};` function(){
+          client.query(`update polls set avg_opinion = ${avg_opinion}, votes = ${votes} where id = ${post.id};`, function(){
             //end database connection
             done();
             pg.end();
@@ -207,7 +207,7 @@ app.post('/polls/:id', function(req,res){
           //refresh page
           res.redirect('/polls/' + post.id);
         }
-        else{
+        else{ //if no poll found with requested id
           res.render('page404',{req});
         }
       }); //end client.query

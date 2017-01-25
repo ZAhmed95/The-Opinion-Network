@@ -5,6 +5,7 @@
     <title>User</title>
   </head>
   <body>
+    <% include ./partials/nav %>
     <h1>Hello <%= user.fname + " " + user.lname %></h1>
     <a href="/logout">Logout</a>
     <a href="/polls">Go to Polls</a>

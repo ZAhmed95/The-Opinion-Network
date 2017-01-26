@@ -139,9 +139,9 @@ app.post('/signup', function(req,res){
         return console.log("error inserting into database");
       }
       res.redirect('/');
+      done();
+      pg.end();
     }); //end client.query
-    done();
-    pg.end();
   }); //end pg.connect
 }); //end app.post
 

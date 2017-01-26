@@ -62,19 +62,23 @@ app.listen(app.get('port'), function(){
 });
 
 app.get('/', function(req,res){
-  pg.connect(connectionString, function(err,client,done){
-    client.query("select * from users;", function(err,result){
-      if (err){
-        return console.log("error querying database");
-      }
-    });
-  });
+  // pg.connect(connectionString, function(err,client,done){
+  //   client.query("select * from users;", function(err,result){
+  //     if (err){
+  //       return console.log("error querying database");
+  //     }
+  //   });
+  // });
   if(req.user){
     res.redirect('/users/' + req.user.username);
   }
   else{
-    res.render('login');
+    res.redirect('/login');
   }
+});
+
+app.get('/users', function(req,res){
+
 });
 
 app.get('/users/:username', function(req,res){
@@ -82,7 +86,7 @@ app.get('/users/:username', function(req,res){
 });
 
 app.get('/login', function(req,res){
-  res.redirect('/');
+  res.render('login');
 });
 
 app.post('/login', passport.authenticate('local', {

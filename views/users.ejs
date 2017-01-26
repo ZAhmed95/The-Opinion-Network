@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Users</title>
+  </head>
+  <body>
+    <% include nav.ejs %>
+    <h1>All users</h1>
+    <% for (var i = 0; i < rows.length; i++){ %>
+      <h3><%= rows[i].username</h3>
+    <% } %>
+  </body>
+</html>

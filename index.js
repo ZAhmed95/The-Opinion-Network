@@ -78,8 +78,12 @@ app.get('/', function(req,res){
 });
 
 app.get('/users', function(req,res){
-
-});
+  pg.connect(connectionString, function(err,client,done){
+    client.query("select * from users;", function(err,result){
+      res.render('users', result);
+    }); //end client.query
+  }); //end pg.connect
+}); //end app.get
 
 app.get('/login', function(req,res){
   res.render('login');
@@ -246,17 +250,25 @@ app.get('/polls', function(req,res){
 }); //end app.get
 
 app.get('/:username', function(req,res){
-  if(req.user && req.user.username === req.params.username){
-    pg.connect(connectionString, function(err,client,done){
-      client.query(`select * from polls where fk_user_id = ${req.user.id};`, function(err,polls_created){
-        client.query(`select * from users_polls_voted where user_id = ${req.user.id};`, function(err,polls_voted){
-          res.render('user', {user: req.user, polls_created: polls_created, polls_voted: polls_voted});
-          done();
-          pg.end();
-        }); //end client.query users_polls_voted
-      }); //end client.query polls
-    }); //end pg.connect
-  } //end if(req.user...)
+  if(req.user){
+    if(req.user.username === req.params.username){
+      pg.connect(connectionString, function(err,client,done){
+        client.query(`select * from polls where fk_user_id = ${req.user.id};`, function(err,polls_created){
+          client.query(`select * from users_polls_voted where user_id = ${req.user.id};`, function(err,polls_voted){
+            res.render('user', {user: req.user, polls_created: polls_created, polls_voted: polls_voted});
+            done();
+            pg.end();
+          }); //end client.query users_polls_voted
+        }); //end client.query polls
+      }); //end pg.connect
+    } //end if(req.user.username === req.params.username)
+    else{
+      res.redirect('/users/' + req.params.username);
+    }
+  } //end if(req.user)
+  else{
+    res.redirect('/users/' + req.params.username);
+  }
 }); //end app.get
 
 app.get('*', function(req,res){

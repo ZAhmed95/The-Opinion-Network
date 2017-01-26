@@ -246,15 +246,17 @@ app.get('/polls', function(req,res){
 }); //end app.get
 
 app.get('/:username', function(req,res){
-  pg.connect(connectionString, function(err,client,done){
-    client.query(`select * from polls where fk_user_id = ${req.user.id};`, function(err,polls_created){
-      client.query(`select * from users_polls_voted where user_id = ${req.user.id};`, function(err,polls_voted){
-        res.render('user', {user: req.user, polls_created: polls_created, polls_voted: polls_voted});
-        done();
-        pg.end();
-      }); //end client.query users_polls_voted
-    }); //end client.query polls
-  }); //end pg.connect
+  if(req.user && req.user.username === req.params.username){
+    pg.connect(connectionString, function(err,client,done){
+      client.query(`select * from polls where fk_user_id = ${req.user.id};`, function(err,polls_created){
+        client.query(`select * from users_polls_voted where user_id = ${req.user.id};`, function(err,polls_voted){
+          res.render('user', {user: req.user, polls_created: polls_created, polls_voted: polls_voted});
+          done();
+          pg.end();
+        }); //end client.query users_polls_voted
+      }); //end client.query polls
+    }); //end pg.connect
+  } //end if(req.user...)
 }); //end app.get
 
 app.get('*', function(req,res){

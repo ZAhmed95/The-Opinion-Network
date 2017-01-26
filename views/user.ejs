@@ -6,31 +6,37 @@
   </head>
   <body>
     <% include ./partials/nav %>
-    <h1>Hello <%= user.fname + " " + user.lname %></h1>
-    <a href="/logout">Logout</a>
-    <a href="/polls">Go to Polls</a>
-    <!-- List all polls this user has created -->
-    <h2>Polls you've created:</h2>
-    <% for (var i = 0; i < polls_created.rows.length; i++){ %>
-      <% var poll = polls_created.rows[i] %>
-      <a href=<%= "/polls/" + poll.id %>>
-        <div class="pollItem">
-          <h3><%= poll.title %></h3>
-          <h4>Public opinion: <%= Math.round(poll.avg_opinion * 100) / 100 %></h4>
-          <h4>Total votes: <%= poll.votes %></h4>
-        </div>
-      </a>
+    <% if (own_page){ %>
+      <h1>Hello <%= user.fname + " " + user.lname %></h1>
+      <a href="/logout">Logout</a>
+      <a href="/polls">Go to Polls</a>
+      <!-- List all polls this user has created -->
+      <h2>Polls you've created:</h2>
+      <% for (var i = 0; i < polls_created.rows.length; i++){ %>
+        <% var poll = polls_created.rows[i] %>
+        <a href=<%= "/polls/" + poll.id %>>
+          <div class="pollItem">
+            <h3><%= poll.title %></h3>
+            <h4>Public opinion: <%= Math.round(poll.avg_opinion * 100) / 100 %></h4>
+            <h4>Total votes: <%= poll.votes %></h4>
+          </div>
+        </a>
+      <% } %>
+      <!-- List all polls this user has voted on -->
+      <h2>Polls you've voted on:</h2>
+      <% for (var i = 0; i < polls_voted.rows.length; i++){ %>
+        <% var poll = polls_voted.rows[i] %>
+        <a href=<%= "/polls/" + poll.poll_id %>>
+          <div class="pollItem">
+            <h3><%= poll.title %></h3>
+            <h4>Your opinion: <%= poll.opinion %></h4>
+          </div>
+        </a>
+      <% } %>
     <% } %>
-    <!-- List all polls this user has voted on -->
-    <h2>Polls you've voted on:</h2>
-    <% for (var i = 0; i < polls_voted.rows.length; i++){ %>
-      <% var poll = polls_voted.rows[i] %>
-      <a href=<%= "/polls/" + poll.poll_id %>>
-        <div class="pollItem">
-          <h3><%= poll.title %></h3>
-          <h4>Your opinion: <%= poll.opinion %></h4>
-        </div>
-      </a>
+    <!-- end if(own_page) -->
+    <% else{ %>
+      <h1><%= user %>'s page</h1>
     <% } %>
   </body>
 </html>

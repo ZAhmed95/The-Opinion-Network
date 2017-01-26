@@ -70,7 +70,7 @@ app.get('/', function(req,res){
   //   });
   // });
   if(req.user){
-    res.redirect('/' + req.user.username);
+    res.redirect('/users/' + req.user.username);
   }
   else{
     res.redirect('/login');
@@ -249,13 +249,13 @@ app.get('/polls', function(req,res){
   }); //end pg.connect
 }); //end app.get
 
-app.get('/:username', function(req,res){
+app.get('/users/:username', function(req,res){
   if(req.user){
     if(req.user.username === req.params.username){
       pg.connect(connectionString, function(err,client,done){
         client.query(`select * from polls where fk_user_id = ${req.user.id};`, function(err,polls_created){
           client.query(`select * from users_polls_voted where user_id = ${req.user.id};`, function(err,polls_voted){
-            res.render('user', {user: req.user, polls_created: polls_created, polls_voted: polls_voted});
+            res.render('user', {own_page: true, user: req.user, polls_created: polls_created, polls_voted: polls_voted});
             done();
             pg.end();
           }); //end client.query users_polls_voted
@@ -267,7 +267,7 @@ app.get('/:username', function(req,res){
     }
   } //end if(req.user)
   else{
-    res.redirect('/users/' + req.params.username);
+    res.render('user', {own_page: false, user: req.params.username});
   }
 }); //end app.get
 

@@ -14,8 +14,10 @@
       <% for (var i = 0; i < rows.length; i++){ %>
         <a href=<%= "/polls/" + rows[i].id %>>
           <div class="pollItem">
-            <h2><%= rows[i].title %></h2>
-            <h3>Public opinion: <%= Math.round(rows[i].avg_opinion * 100) / 100 %></h3>
+            <div class="container">
+              <h2><%= rows[i].title %></h2>
+              <h3>Public opinion: <%= Math.round(rows[i].avg_opinion * 100) / 100 %></h3>
+            </div>
           </div>
         </a>
       <% } %>

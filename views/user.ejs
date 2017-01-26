@@ -23,7 +23,7 @@
         </a>
       <% } %>
       <!-- List all polls this user has voted on -->
-      <h2>Polls you've voted on:</h2>
+      <!-- <h2>Polls you've voted on:</h2>
       <% for (var i = 0; i < polls_voted.rows.length; i++){ %>
         <% var poll = polls_voted.rows[i] %>
         <a href=<%= "/polls/" + poll.poll_id %>>
@@ -33,7 +33,7 @@
           </div>
         </a>
       <% } %>
-    <% }
+    <% } -->
     <!-- end if(own_page) -->
     else{ %>
       <h1><%= user %>'s page</h1>

@@ -34,6 +34,8 @@ passport.use(new LocalStrategy(
       }
       //find matching user and password
       client.query("select * from users where username = '" + username + "' and password = '" + password + "';", function(err,result){
+        pgdone();
+        pg.end();
         if(err){
           console.log("error querying database");
           return done(err);
@@ -43,8 +45,6 @@ passport.use(new LocalStrategy(
         }
         return done(null, false); //user not found
       }); //end client.query
-      pgdone();
-      pg.end();
     }); //end pg.connect
   } //end strategy function
 )); //end passport.use(new LocalStrategy())

@@ -81,18 +81,6 @@ app.get('/users', function(req,res){
 
 });
 
-app.get('/:username', function(req,res){
-  pg.connect(connectionString, function(err,client,done){
-    client.query(`select * from polls where fk_user_id = ${req.user.id};`, function(err,polls_created){
-      client.query(`select * from users_polls_voted where user_id = ${req.user.id};`, function(err,polls_voted){
-        res.render('user', {user: req.user, polls_created: polls_created, polls_voted: polls_voted});
-        done();
-        pg.end();
-      }); //end client.query users_polls_voted
-    }); //end client.query polls
-  }); //end pg.connect
-}); //end app.get
-
 app.get('/login', function(req,res){
   res.render('login');
 });
@@ -254,6 +242,18 @@ app.get('/polls', function(req,res){
       done();
       pg.end();
     })
+  }); //end pg.connect
+}); //end app.get
+
+app.get('/:username', function(req,res){
+  pg.connect(connectionString, function(err,client,done){
+    client.query(`select * from polls where fk_user_id = ${req.user.id};`, function(err,polls_created){
+      client.query(`select * from users_polls_voted where user_id = ${req.user.id};`, function(err,polls_voted){
+        res.render('user', {user: req.user, polls_created: polls_created, polls_voted: polls_voted});
+        done();
+        pg.end();
+      }); //end client.query users_polls_voted
+    }); //end client.query polls
   }); //end pg.connect
 }); //end app.get
 

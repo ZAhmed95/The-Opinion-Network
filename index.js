@@ -169,7 +169,7 @@ app.get('/polls/:id', function(req,res){
             }); //end client.query users_polls_voted
           }
           else{
-            res.render('post', {post: post, pm: pollMaker.rows[0]});
+            res.render('post', {post: post, pm: pollMaker.rows[0], uv: undefined});
           }
         }); //end client.query users
       }

@@ -184,25 +184,25 @@ app.get('/polls/:id', function(req,res){
     }
     client.query(`select * from polls where id = ${req.params.id};`, function(err,result){
       if(err){
-        return console.log("error querying database");
+        return console.log("error querying database polls");
       }
       if(result.rows.length){
         var post = result.rows[0];
         client.query(`select * from users where id = ${post.fk_user_id};`, function(err,pollMaker){
           if (req.user){ //if a user is currently signed in, check if they have already voted on this poll
             client.query(`select * from users_polls_voted where user_id = ${req.user.id} and poll_id = ${post.id};`, function(err,user_voted){
-              res.render('post', {post: post, pm: pollMaker.rows[0], uv: user_voted});
               done();
               pg.end();
+              res.render('post', {post: post, pm: pollMaker.rows[0], uv: user_voted});
             }); //end client.query users_polls_voted
-          }
+          } //end if(req.user)
           else{
             res.render('post', {post: post, pm: pollMaker.rows[0], uv: undefined});
             done();
             pg.end();
           }
         }); //end client.query users
-      }
+      } //end if(result.rows.length)
       else{
         res.render('page404', {req});
       }

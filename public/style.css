@@ -1,5 +1,49 @@
+/*for nav.ejs*/
+.navigation{
+  position: absolute;
+  width: 100%;
+  height: 120px;
+  background-color: lightblue;
+}
+
+.title{
+  position: absolute;
+}
+
+#title1{
+  left: 20px;
+  top: -10px;
+}
+
+#title2{
+  left: 70px;
+  top: 15px;
+}
+
+#title3{
+  left: 180px;
+  top: 40px;
+}
+
+.menu{
+  position: absolute;
+  top: 80px;
+}
+
+.menuItem{
+  display: inline-block;
+  padding-right: 20px;
+}
+/*end nav.ejs*/
+
+/*general elements for all pages*/
+.container{
+  background-color: lightblue;
+  padding: 20px;
+}
 a{
   text-decoration: none;
+  color: inherit;
 }
 
 .pollItem{
@@ -11,3 +55,43 @@ a{
 .pollItem:hover{
   border-color: black;
 }
+/*end general elements*/
+
+/*for login page*/
+.loginDiv{
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  top: 200px;
+}
+/*end login*/
+
+/*for users page*/
+.usersDiv{
+  position: absolute;
+  top: 150px;
+}
+/*end users*/
+
+/*for polls page*/
+.pollsDiv{
+  position: absolute;
+  top: 150px;
+}
+/*end polls*/
+
+/*for 404 page*/
+.div404{
+  position: absolute;
+  top: 150px;
+}
+/*end 404*/
+
+/*for signup page*/
+.signupDiv{
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  top: 200px;
+}
+/*end signup*/

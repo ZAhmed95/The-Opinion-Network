@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Post</title>
+    <!-- <% include ./partials/head %> -->
   </head>
   <body>
     <% include ./partials/nav %>
@@ -16,14 +17,15 @@
       if(uv.rows.length){  %>
         <!-- if user has voted in this poll, inform them that they've already voted -->
         <h4>You've already voted in this poll. Your opinion on this poll is: <%= uv.rows[0].opinion %></h4>
-      <% } 
+      <% }
       else{ %>
         <!-- if user has not voted in this poll, show vote form -->
         <form class="vote" action= <%= "/polls/" + post.id %> method="post">
           <h4>What's your opinion?</h4>
           (On a scale of 0 to 10, 0 = completely disagree, 10 = completely agree)
           <br>
-          <input type="number" name="opinion">
+          <input type="range" min="0" max="10" step="1" name="opinion">
+          <!-- <input type="number" name="opinion"> -->
           <br>
           <input type="submit" name="submit" value="Submit">
         </form>

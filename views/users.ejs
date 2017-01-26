@@ -3,12 +3,17 @@
   <head>
     <meta charset="utf-8">
     <title>Users</title>
+    <% include ./partials/head %>
   </head>
   <body>
     <% include ./partials/nav.ejs %>
-    <h1>All users</h1>
-    <% for (var i = 0; i < rows.length; i++){ %>
-      <h3><%= rows[i].username %></h3>
-    <% } %>
+    <div class="usersDiv">
+      <div class="container">
+        <h1>All users</h1>
+        <% for (var i = 0; i < rows.length; i++){ %>
+          <h3><a href=<%= "/users/" + rows[i].username %>><%= rows[i].username %></a></h3>
+        <% } %>
+      </div>
+    </div>
   </body>
 </html>

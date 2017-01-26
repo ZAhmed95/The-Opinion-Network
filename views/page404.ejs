@@ -3,10 +3,15 @@
   <head>
     <meta charset="utf-8">
     <title>404 Not Found</title>
+    <!-- <% include ./partials/head %> -->
   </head>
   <body>
     <% include ./partials/nav %>
-    <h1>Congratulations, it's a 404!</h1>
-    <h2>But seriously, the requested url <%= req.url %> was not found on this server. Try something else. How about <a href="/">this</a>?</h2>
+    <div class="div404">
+      <div class="container">
+        <h1>Congratulations, it's a 404!</h1>
+        <h2>But seriously, the requested url <%= req.url %> was not found on this server. Try something else. How about <span style="color:red"><a href="/">this</a></span>?</h2>
+      </div>
+    </div>
   </body>
 </html>

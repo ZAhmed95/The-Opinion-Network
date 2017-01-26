@@ -163,6 +163,7 @@ app.get('/polls/:id', function(req,res){
       if(result.rows.length){
         var post = result.rows[0];
         client.query(`select * from users where id = ${post.fk_user_id};`, function(err,pollMaker){
+          console.log("USER: " + req.user);
           if (req.user){ //if a user is currently signed in, check if they have already voted on this poll
             client.query(`select * from users_polls_voted where user_id = ${req.user.id} and poll_id = ${post.id};`, function(err,user_voted){
               console.log("USER VOTED: " + user_voted);

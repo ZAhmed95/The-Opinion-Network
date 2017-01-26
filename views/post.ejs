@@ -7,18 +7,29 @@
   <body>
     <% include ./partials/nav %>
     <h1>Poll: <%= post.title %></h1>
-    <h2>Created by: <%= user.username %></h2>
+    <h2>Created by: <%= pm.username %></h2>
     <h3>Description:</h3>
     <p><%= post.description %></p>
     <h4>Public opinion: <%= Math.round(post.avg_opinion * 100) / 100 %></h4>
     <h4>Number of votes: <%= post.votes %></h4>
-    <form class="vote" action= <%= "/polls/" + post.id %> method="post">
-      <h4>What's your opinion?</h4>
-      (On a scale of 0 to 10, 0 = completely disagree, 10 = completely agree)
-      <br>
-      <input type="number" name="opinion">
-      <br>
-      <input type="submit" name="submit" value="Submit">
-    </form>
+    <% if(uv){
+      if(uv.rows.length){  %>
+        <!-- if user has voted in this poll, inform them that they've already voted -->
+        <h4>You've already voted in this poll. Your opinion on this poll is: <%= uv.rows[0].opinion %></h4>
+      <% } 
+      else{ %>
+        <!-- if user has not voted in this poll, show vote form -->
+        <form class="vote" action= <%= "/polls/" + post.id %> method="post">
+          <h4>What's your opinion?</h4>
+          (On a scale of 0 to 10, 0 = completely disagree, 10 = completely agree)
+          <br>
+          <input type="number" name="opinion">
+          <br>
+          <input type="submit" name="submit" value="Submit">
+        </form>
+      <% }
+      <!-- end if(uv.rows.length) -->
+    } %>
+    <!-- end if(uv) -->
   </body>
 </html>

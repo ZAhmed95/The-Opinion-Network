@@ -162,8 +162,15 @@ app.get('/polls/:id', function(req,res){
       }
       if(result.rows.length){
         var post = result.rows[0];
-        client.query(`select * from users where id = ${post.fk_user_id};`, function(err,resultUser){
-          res.render('post', {post: post, user: resultUser.rows[0]});
+        client.query(`select * from users where id = ${post.fk_user_id};`, function(err,pollMaker){
+          if (req.user){ //if a user is currently signed in, check if they have already voted on this poll
+            client.query(`select * from users_polls_voted where user_id = ${req.user.id} and poll_id = ${post.id};`, function(err,user_voted){
+              res.render('post', {post: post, pm: pollMaker.rows[0], uv: user_voted});
+            }); //end client.query users_polls_voted
+          }
+          else{
+            res.render('post', {post: post, pm: pollMaker.rows[0]});
+          }
         }); //end client.query users
       }
       else{
@@ -193,12 +200,15 @@ app.post('/polls/:id', function(req,res){
           else if (opinion > 10) opinion = 10;
           //update avg_opinion with new opinion (and increment votes by 1)
           avg_opinion = (avg_opinion * votes + opinion) / (++votes);
-          //update database
+          //update polls table with new avg_opinion and votes
           client.query(`update polls set avg_opinion = ${avg_opinion}, votes = ${votes} where id = ${post.id};`, function(){
-            //end database connection
-            done();
-            pg.end();
-          });
+            //update users_polls_voted table to show that this user has voted on this poll
+            client.query(`insert into users_polls_voted (user_id,poll_id,opinion) values (${req.user.id},${post.id},${opinion});`, function(){
+              //end database connection
+              done();
+              pg.end();
+            }); //end client.query users_polls_voted
+          }); //end client.query polls
           //refresh page
           res.redirect('/polls/' + post.id);
         }

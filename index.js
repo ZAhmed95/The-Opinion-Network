@@ -165,19 +165,23 @@ app.get('/polls/:id', function(req,res){
         client.query(`select * from users where id = ${post.fk_user_id};`, function(err,pollMaker){
           if (req.user){ //if a user is currently signed in, check if they have already voted on this poll
             client.query(`select * from users_polls_voted where user_id = ${req.user.id} and poll_id = ${post.id};`, function(err,user_voted){
+              console.log(user_voted);
               res.render('post', {post: post, pm: pollMaker.rows[0], uv: user_voted});
+              done();
+              pg.end();
             }); //end client.query users_polls_voted
           }
           else{
             res.render('post', {post: post, pm: pollMaker.rows[0], uv: undefined});
+            done();
+            pg.end();
           }
         }); //end client.query users
       }
       else{
         res.render('page404', {req});
       }
-      done();
-      pg.end();
+
     }); //end client.query polls
   }); //end pg.connect
 }); //end app.get
